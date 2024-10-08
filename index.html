@@ -29,7 +29,7 @@
         console.error('LIFF初期化エラー:', error);
       });
 
-    // フォーム送信時の処理
+        // フォーム送信時の処理
     document.getElementById('surveyForm').onsubmit = function(event) {
       event.preventDefault();  // フォームの標準の送信をキャンセル
 
@@ -57,7 +57,8 @@
         .catch(error => {
           console.error('送信エラー:', error);
         });
-    };
+      })  // ここを追加
+    }; // ここも追加
   </script>
 </body>
 </html>
