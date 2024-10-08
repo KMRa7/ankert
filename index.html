@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>アンケート</title>
+</head>
+<body>
+  <h1>アンケートにお答えください</h1>
+  <form id="surveyForm">
+    <label for="q1">この製品に興味がありますか？</label>
+    <select id="q1">
+      <option value="興味がある">興味がある</option>
+      <option value="検討中">検討中</option>
+      <option value="不要">不要</option>
+    </select>
+    <button type="submit">送信</button>
+  </form>
+
+  <script>
+    // フォーム送信時の処理
+    document.getElementById('surveyForm').onsubmit = function(event) {
+      event.preventDefault();  // フォームの標準の送信をキャンセル
+
+      const answer = document.getElementById('q1').value;
+
+      // ユーザーID（例: LINEのユーザーID）を取得する必要があります。
+      const userId = '取得したユーザーID';  // 適切な方法でユーザーIDを取得
+
+      // サーバーにアンケート結果を送信
+      fetch('YOUR_APPS_SCRIPT_URL', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: userId,
+          answer: answer
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('データ送信完了:', data);
+        // 送信後に画面を閉じるなどの処理
+      })
+      .catch(error => {
+        console.error('送信エラー:', error);
+      });
+    };
+  </script>
+</body>
+</html>
