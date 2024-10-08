@@ -24,6 +24,9 @@
         if (!liff.isLoggedIn()) {
           liff.login();
         }
+      })
+      .catch(error => {
+        console.error('LIFF初期化エラー:', error);
       });
 
     // フォーム送信時の処理
@@ -37,7 +40,7 @@
         const userId = profile.userId;  // ユーザーIDを取得
 
         // サーバーにアンケート結果を送信
-        fetch('https://script.google.com/macros/s/AKfycbwuL7IBp5Fb6NI4jWum-tthfokc-eih15u4_BvcbRo6gUuaCgi_5os7Ea8PAAjU8mmqhQ/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbxaorwtiA39qEfISHRUJBPoM5i8ZvAIf8DLQ96fbBDCGRloD75WhCYuIndZhJW1rGd-/exec', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
