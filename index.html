@@ -40,7 +40,7 @@
         const userId = profile.userId;  // ユーザーIDを取得
 
         // サーバーにアンケート結果を送信
-        fetch('https://script.google.com/macros/s/AKfycbwcxvwG4R_cBMvDgx4Ibmq3YM69sU6zHm3p8Oo1zHtXgb7Qi87c6v4lU_c1r-QS9TowiA/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbwd0zeAVjp3pHuwrW66J9XaFVs4N14yx-hIcLJG50QJPhkECTYFLIcsVcFuFyFyHxjPOw/exec',  {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -53,15 +53,10 @@
         .then(response => response.json())
         .then(data => {
           console.log('データ送信完了:', data);
-          // 送信後に画面を閉じるなどの処理
-          liff.closeWindow();  // ウィンドウを閉じる
         })
         .catch(error => {
           console.error('送信エラー:', error);
         });
-      }).catch(error => {
-        console.error('プロフィール取得エラー:', error);
-      });
     };
   </script>
 </body>
