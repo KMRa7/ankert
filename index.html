@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>アンケート</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
   <h1>アンケートにお答えください</h1>
@@ -16,33 +17,47 @@
   </form>
 
   <script>
+    // LIFF初期化
+    liff.init({ liffId: "2006430675-nYG3PVJ3" })  // ここにあなたのLIFF IDを入れてください
+      .then(() => {
+        // ログインしていない場合、ログインさせる
+        if (!liff.isLoggedIn()) {
+          liff.login();
+        }
+      });
+
     // フォーム送信時の処理
     document.getElementById('surveyForm').onsubmit = function(event) {
       event.preventDefault();  // フォームの標準の送信をキャンセル
 
       const answer = document.getElementById('q1').value;
 
-      // ユーザーID（例: LINEのユーザーID）を取得する必要があります。
-      const userId = '取得したユーザーID';  // 適切な方法でユーザーIDを取得
+      // ユーザーIDを取得
+      liff.getProfile().then(profile => {
+        const userId = profile.userId;  // ユーザーIDを取得
 
-      // サーバーにアンケート結果を送信
-      fetch('YOUR_APPS_SCRIPT_URL', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: userId,
-          answer: answer
+        // サーバーにアンケート結果を送信
+        fetch('https://script.google.com/macros/s/AKfycbwuL7IBp5Fb6NI4jWum-tthfokc-eih15u4_BvcbRo6gUuaCgi_5os7Ea8PAAjU8mmqhQ/exec', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId: userId,  // 取得したユーザーIDを使用
+            answer: answer
+          })
         })
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('データ送信完了:', data);
-        // 送信後に画面を閉じるなどの処理
-      })
-      .catch(error => {
-        console.error('送信エラー:', error);
+        .then(response => response.json())
+        .then(data => {
+          console.log('データ送信完了:', data);
+          // 送信後に画面を閉じるなどの処理
+          liff.closeWindow();  // ウィンドウを閉じる
+        })
+        .catch(error => {
+          console.error('送信エラー:', error);
+        });
+      }).catch(error => {
+        console.error('プロフィール取得エラー:', error);
       });
     };
   </script>
